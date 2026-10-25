@@ -41,3 +41,23 @@ example
 # generated native folders
 /ios
 /android
+secrets/
+*.service-account.json
+service-account*.json
+
+# PurifiX local backups and secrets
+/src/app-backup/
+/secrets/
+/.env
+/.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Service-account credentials
+*service-account*.json
+*.service-account.json
+
+# Local admin environment
+/admin/.env.local

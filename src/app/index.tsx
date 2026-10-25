@@ -1,98 +1,105 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image } from "expo-image";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+const products = [
+  { name: "PurifiX PureFlow RO", type: "RO + UV Water Purifier", price: "₹12,999" },
+  { name: "PurifiX AquaShield", type: "UV + UF Water Purifier", price: "₹8,499" },
+  { name: "PurifiX MineralPro", type: "RO + Mineral Enrichment", price: "₹15,499" },
+];
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <ScrollView style={styles.page} contentContainerStyle={styles.content}>
+      <Text style={styles.brand}>PurifiX</Text>
+      <Text style={styles.tagline}>Pure water. Better living.</Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <View style={styles.hero}>
+        <Text style={styles.eyebrow}>CLEAN WATER, EVERY DAY</Text>
+        <Image
+  source={{
+    uri: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=900&h=600&fit=crop&auto=format&q=75",
+  }}
+  style={{
+    width: "100%",
+    height: 210,
+    borderRadius: 20,
+  }}
+  contentFit="cover"
+  cachePolicy="memory-disk"
+  transition={180}
+  accessibilityLabel="Clean drinking water"
+/>
+        <Text style={styles.heroTitle}>A purer sip starts here.</Text>
+        <Text style={styles.heroText}>
+          Explore water purification designed for your home.cd "F:\water app\PurifiX"
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+$file = ".\src\lib\firebase.ts"
+$content = Get-Content -Raw $file
+$content = $content -replace '(?m)^\s*projectId:.*$', '  projectId: "purifixro",'
+Set-Content -Path $file -Value $content -Encoding utf8
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+Select-String -Path $file -Pattern "projectId"
+        </Text>
+      </View>
+
+      <Text style={styles.sectionTitle}>Popular purifiers</Text>
+
+      {products.map((product) => (
+        <View key={product.name} style={styles.product}>
+          <View style={styles.productIcon}>
+            <Text style={styles.drop}>◈</Text>
+          </View>
+          <View style={styles.productInfo}>
+            <Text style={styles.productName}>{product.name}</Text>
+            <Text style={styles.productType}>{product.type}</Text>
+            <Text style={styles.price}>{product.price}</Text>
+          </View>
+        </View>
+      ))}
+
+      <Text style={styles.footer}>
+        Need help? Book a PurifiX service appointment.
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+  page: { flex: 1, backgroundColor: "#F4F8FA" },
+  content: { padding: 22, paddingTop: 36, paddingBottom: 48 },
+  brand: { fontSize: 30, fontWeight: "800", color: "#087E8B" },
+  tagline: { fontSize: 14, color: "#64748B", marginTop: 3 },
+  hero: {
+    backgroundColor: "#073B4C",
+    borderRadius: 24,
+    padding: 24,
+    marginTop: 26,
+    marginBottom: 28,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+  eyebrow: { color: "#7DE2D1", fontSize: 11, fontWeight: "700", letterSpacing: 1.5 },
+  heroTitle: { color: "#FFFFFF", fontSize: 29, fontWeight: "800", marginTop: 14 },
+  heroText: { color: "#D6E9EF", fontSize: 15, lineHeight: 23, marginTop: 10 },
+  sectionTitle: { fontSize: 21, fontWeight: "800", color: "#102A43", marginBottom: 14 },
+  product: {
+    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 18,
+    padding: 14,
+    marginBottom: 12,
+    alignItems: "center",
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  productIcon: {
+    width: 66,
+    height: 76,
+    borderRadius: 14,
+    backgroundColor: "#DDF5F3",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
+  drop: { fontSize: 34, color: "#087E8B" },
+  productInfo: { flex: 1, marginLeft: 14 },
+  productName: { fontSize: 16, fontWeight: "700", color: "#102A43" },
+  productType: { fontSize: 13, color: "#64748B", marginTop: 5 },
+  price: { fontSize: 17, fontWeight: "800", color: "#087E8B", marginTop: 9 },
+  footer: { textAlign: "center", color: "#64748B", marginTop: 18, lineHeight: 22 },
 });
